@@ -34,12 +34,6 @@ var app = new Vue({
 // https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries
 // https://query.wikidata.org/#SELECT%20%3Fo%20%3Fs%20%3FsLabel%20%3FpLabel%20WHERE%20%7B%0A%20%20%3Fs%20wdt%3AP619%20%3Fo%20.%0A%20OPTIONAL%7B%0A%20%20%20%3Fs%20wdt%3AP1427%20%3Fp%20.%0A%20%7D%0A%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22ja%2Cen%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fo%29%0ALIMIT%2010
 
-// NASA
-//  https://www.nasa.gov/launchschedule/
-//  results : https://www.nasa.gov/subject/7451/launches/
-// JAXA
-//  http://fanfun.jaxa.jp/faq/detail/290.html
-
 // http://negi-magnet.hatenablog.com/entry/2014/01/13/132406
 
 var dtend = new Date();
