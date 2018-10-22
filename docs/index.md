@@ -4,8 +4,33 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: home
 ---
-<script src="https://cdn.jsdelivr.net/npm/vue" defer></script>
-<script type="text/javascript" defer>
+Launches within two month. ([Wikidata Query](https://query.wikidata.org/#SELECT%20%3Fo%20%3Fs%20%3FsLabel%20%3FpLabel%20WHERE%20%7B%0A%20%20%3Fs%20wdt%3AP619%20%3Fo%20.%0A%20OPTIONAL%7B%0A%20%20%20%3Fs%20wdt%3AP1427%20%3Fp%20.%0A%20%7D%0A%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_SELECT%5D%2Cen%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fo%29%0A))
+
+<table id="launches">
+ <tr><th>Date</th><th>Name</th><th>Operator</th><th>Location</th></tr>
+ {% raw %}
+ <tr v-if="results.length == 0">
+   <td colspan="4">loading...</td>
+ </tr>
+ <tr v-for="r in results">
+   <td>{{ r.date }}</td>
+   <td><a v-bind:href="r.url">{{ r.name }}</a></td>
+   <td>{{ r.op }}</td>
+   <td>{{ r.loc }}</td>
+ </tr>
+ {% endraw %}
+</table>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript">
+
+var app = new Vue({
+	el: "#launches",
+	data: {
+		results: []
+	}
+})
+
 // https://www.wikidata.org/wiki/Wikidata:SPARQL_query_service/queries
 // https://query.wikidata.org/#SELECT%20%3Fo%20%3Fs%20%3FsLabel%20%3FpLabel%20WHERE%20%7B%0A%20%20%3Fs%20wdt%3AP619%20%3Fo%20.%0A%20OPTIONAL%7B%0A%20%20%20%3Fs%20wdt%3AP1427%20%3Fp%20.%0A%20%7D%0A%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22ja%2Cen%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fo%29%0ALIMIT%2010
 
@@ -62,29 +87,10 @@ fetch("https://query.wikidata.org/sparql?query="+encodeURIComponent(query), {
 						}
 						return d;
 					})
-					app = new Vue({
-						el: "#launches",
-						data: {
-							results: labels
-						}
-					})
+					Vue.set(app, "results", labels);
 				}
 			);
 		}
 	}
 );
 </script>
-
-Launches within two month. ([Wikidata Query](https://query.wikidata.org/#SELECT%20%3Fo%20%3Fs%20%3FsLabel%20%3FpLabel%20WHERE%20%7B%0A%20%20%3Fs%20wdt%3AP619%20%3Fo%20.%0A%20OPTIONAL%7B%0A%20%20%20%3Fs%20wdt%3AP1427%20%3Fp%20.%0A%20%7D%0A%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22%5BAUTO_SELECT%5D%2Cen%22.%20%7D%0A%7D%0AORDER%20BY%20DESC%28%3Fo%29%0A))
-<table id="launches">
- <tr><th>Date</th><th>Name</th><th>Operator</th><th>Location</th></tr>
- {% raw %}
- <tr v-for="r in results">
-   <td>{{ r.date }}</td>
-   <td><a v-bind:href="r.url">{{ r.name }}</a></td>
-   <td>{{ r.op }}</td>
-   <td>{{ r.loc }}</td>
- </tr>
- {% endraw %}
-</table>
-
